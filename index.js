@@ -1,8 +1,11 @@
 const express = require('express');
 
-const {connectMongoDb} = require('./connectdb')
+const {connectMongoDb} = require('./connectdb');
 
-const urlRouter = require('./routes/url')
+const URL = require('./models/url')
+
+const urlRouter = require('./routes/url');
+
 
 const app = express();
 
@@ -17,7 +20,19 @@ console.log('mongoDb connected')
 
 app.use(express.json())
 
-app.use('/url', urlRouter)
+app.use('/url', urlRouter);
+app.get('/:shortId', async (req, res) => {
+    const shortId = req.params.shortId
+    const entery = await URL.findOneAndUpdate({
+        shortId
+    }, {$push: {
+        visitHistory: {
+            timestamp: Date.now()
+        }
+    }});
+
+    res.redirect(entery.redirectUrl)
+})
 
 app.listen(PORT, () => console.log(`Running on Port ${PORT}`))
 

@@ -1,5 +1,5 @@
-const shortid = require('shortid');
 
+const shortid = require('shortid')
 const URL = require('../models/url');
 
 
@@ -20,6 +20,30 @@ async function handelGenerateNewShortUrl(req,res){
 
 };
 
+async function handleGetAnalytics(req, res) {
+    const shortId = req.params.shortId;
+    const result = await URL.findOne({ shortId });
+    return res.json({
+      totalClicks: result.visitHistory.length,
+      analytics: result.visitHistory,
+    });
+  }
+
+// async function handelRedirectToUrl(req,res) {
+//     const shortId = await URL.findById(req.params.id)
+//     const entery = await URL.findOneAndUpdate({
+//         shortId
+//     }, {$push: {
+//         visitHistory: {
+//             timestamp: Date.now()
+//         }
+//     }});
+
+//     res.redirect(entery.redirectUrl)
+
+// }
+
 module.exports = {
     handelGenerateNewShortUrl,
+    handleGetAnalytics
 }
