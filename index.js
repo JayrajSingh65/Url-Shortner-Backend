@@ -21,6 +21,7 @@ console.log('mongoDb connected')
 app.use(express.json())
 
 app.use('/url', urlRouter);
+app.use('/analytics/:shortId', urlRouter)
 app.get('/:shortId', async (req, res) => {
     const shortId = req.params.shortId
     const entery = await URL.findOneAndUpdate({

@@ -5,7 +5,7 @@ const {handelGenerateNewShortUrl,handleGetAnalytics} = require('../controllers/u
 
 
 router.post('/', handelGenerateNewShortUrl);
-router.post('/analytics/:shortId', handleGetAnalytics )
+router.get('/analytics/:shortId', handleGetAnalytics )
 
 // router.route('/:shortId').get(handelRedirectToUrl)
 
